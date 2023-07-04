@@ -1,0 +1,39 @@
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:        
+      - '*'           # Push events to every tag not containing /
+  workflow_dispatch:
+
+name: Publish Crates
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install tree-sitter-cli
+      uses: taiki-e/install-action@v2
+      with:
+        tool: tree-sitter-cli
+        
+    - name: Install stable rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+
+    - name: Run tree-sitter generate
+      run: tree-sitter generate
+
+    - name: Publish Crate
+      run: cargo publish --token ${CRATES_TOKEN}
+      env:
+          CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}
