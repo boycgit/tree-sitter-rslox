@@ -11,12 +11,13 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  publish:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout sources
+      uses: actions/checkout@v3
         
     - name: Install stable rust toolchain
       uses: actions-rs/toolchain@v1
