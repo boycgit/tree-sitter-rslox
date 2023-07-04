@@ -1,0 +1,77 @@
+============================================
+Associativity
+============================================
+var a = "a";
+var b = "b";
+var c = "c";
+
+---
+
+(program
+(decl
+(decl_var
+    (identifier)
+    (expr_primary
+    (string))))
+(decl
+(decl_var
+    (identifier)
+    (expr_primary
+    (string))))
+(decl
+(decl_var
+    (identifier)
+    (expr_primary
+    (string)))))
+
+
+============================================
+Assignment is right-associative.
+============================================
+
+// Assignment is right-associative.
+a = b = c;
+print a; // out: c
+print b; // out: c
+print c; // out: c
+
+---
+
+(program
+(comment)
+(decl
+(decl_stmt
+    (stmt_expr
+    (expr_infix
+        (expr_primary
+        (var
+            (identifier)))
+        (expr_infix
+        (expr_primary
+            (var
+            (identifier)))
+        (expr_primary
+            (var
+            (identifier))))))))
+(decl
+(decl_stmt
+    (stmt_print
+    (expr_primary
+        (var
+        (identifier))))))
+(comment)
+(decl
+(decl_stmt
+    (stmt_print
+    (expr_primary
+        (var
+        (identifier))))))
+(comment)
+(decl
+(decl_stmt
+    (stmt_print
+    (expr_primary
+        (var
+        (identifier))))))
+(comment))
+
